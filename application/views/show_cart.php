@@ -11,15 +11,16 @@
         width: 400px;
         vertical-align: middle;
         text-align: center;
+        margin: 10px auto;
       }
       .container-table {
         vertical-align: middle;
         text-align: center;
       }
       button {
-        /*float: left;*/
+        float: right;
         margin-top: 5px;
-        margin-left: 50px;
+        margin-left: 150px;
       }
       .form-control {
         margin: 5px;
@@ -33,7 +34,7 @@
         padding: 5px;
       }
       td {
-        padding: 5px;
+        padding: 15px;
       }
       .alert {
         text-align: center;
@@ -55,16 +56,21 @@
         margin: 0 auto;
         display: block;
       }
+      #delete {
+        color: red;
+        font-weight: 900;
+      }
     </style>
 </head>
 <body>
-  <div class="header"><h3 class="left">Products</h3><h4 class="right"><a href="/products/show_cart">Your Cart (<?php echo $numItemsInCart; ?>)</h4></a></div>
+  <div class="header"><h3 class="left">Checkout</h3><h4 class="right"><a href="/products">Continue Shopping</h4></a></div>
   <div class="container container-table">
       <table class="table-striped">
         <thead>
+          <td>Quantity</td>
           <td>Description</td>
           <td>Price</td>
-          <td>Quantity</td>
+          <td>Actions</td>
         </thead>
         <tbody>
           <?php 
@@ -72,25 +78,29 @@
             {
               ?>
               <tr>
+                <td> <?php echo $quantity[$key]; ?></td>
                 <td> <?php echo $description[$key]; ?></td>
-                <td> <?php echo $price[$key]; ?></td>
-                <td>
-                  <form action="/products/add_cart/<?php echo $value;?>" method="post">
-                  <select name="quantity">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                  </select>
-                  <button type="submit" class="btn-primary">Buy</button>
-                  </form>
-                </td>
-                <!-- <td><a href="/products/add_cart/<?php echo $value;?> ">Buy</a></td> -->
+                <td>$<?php echo $price[$key]; ?></td>            
+                <td><a id="delete" href="/products/remove_item/<?php echo $product_id[$key];?> ">Delete</a></td>
               </tr>
           <?php
             }
           ?>
+          <tr>
+            <td></td>
+            <td><h4><strong>Total</h4></strong></td>
+            <td><strong>$<?php echo $total; ?></strong></td>
+          </tr>
         </tbody>
       </table>
+      <div class="container-form">
+        <h3>Billing Info</h3>
+        <form class="form-group" action="" method="post" role="form">
+          <input class="form-control" type='text' placeholder='Name' name='name' required>
+          <input class="form-control" type='text' placeholder='Address' name='address' required>
+          <input class="form-control" type='text' placeholder='Card #' name='credit_card' required>
+          <button type="submit" class="btn-primary">Order</button>
+        </form>
+      </div>
 </body>
 </html>
